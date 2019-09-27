@@ -1,0 +1,87 @@
+- [ ] Create management plugin under `legacy/core_plugins`. #45747
+- [ ] Remove `injectI18n`s. #45876
+- [ ] Index Patterns section
+  - To use `react-router-dom`, the URL structure should be changed a bit like below: 
+    - /index_patterns -> show list
+    - /index_patterns/create -> create index pattern wizard. (Previously: /index_pattern)
+    - /index_patterns/edit/:id -> edit index pattern (Previously: /index_patterns/:id)
+  - [ ] List
+    - [ ] Create folder, `list`, and move related files. 
+      - [ ] `IndexPatternsList.tsx` 
+      - [ ] Create `components` folder and move:
+        - [ ] CreateButton
+        - [ ] create_index_pattern_prompt/index.tsx -> CreateIndexPatternPrompt
+        - [ ] IndexPatternTable
+      - [ ] Migrate IndexPatternTable content to IndexPatternList.tsx
+      - [ ] Create IndexPatternListHeader.tsx and move page title and button part. 
+      - [ ] CreateButton -> move `const button` into `options.length > 1` and `> 1` condition to `else`.
+    - List Component 
+      - [ ] De-angularize legacy compat
+        - [ ] uiCapabilities -> npStart.core.application.capabilities
+        - [ ] badge -> npStart.core.chrome.setBadge
+          - [ ] badge and uiCapabilities -> check ui/legacy_compat/angular_config.tsx
+        - [ ] requireUICapability -> move ui/capabilities/route_setup -> src/plugins/kibana_react
+      - [ ] De-angularize variables
+        - [ ] indexPatterns -> SavedObjectsClientProvider -> npStart.core.savedObjects.client
+        - [ ] kbnUrl.change -> [history.push](https://tylermcginnis.com/react-router-programmatically-navigate/)
+        - [ ] kbnUrl.eval -> simple template string
+        - [ ] defaultIndex -> get it from `uiSettings.get('defaultIndex')`
+        - [ ] editingId -> can be removed. `:indexPatternsId` doesn't exist in url
+        - [ ] $watch('defaultIndex', () => renderList()) -> renderList(). `'defaultIndex'` doesn't change magically. It is changed in edit page. And it can be re-calculated when List is rendered again later when the page is visited again. 
+        - [ ] bindToScope and $apply can be removed because defaultIndex is retrieved directly from uiSettings. 
+        - [ ] I18nContext -> npStart.core.i18n.Context
+        - [ ] UICapabilitiesProvider -> npStart.core.application.capabilities 
+  - [ ] Create
+    - [ ] De-angularize variables
+      - [ ] $routeParams -> Remove. url pattern doesn't have :id or :type. And query params aren't used. 
+      - [ ] config -> npSetup.core.uiSettings
+      - [ ] es
+        - [ ] add `getIndexNamesForWildcard` in `IndexPatternsFetcher`.
+        - [ ] add route to `IndexPatternsFetcher`.
+        - [ ] add api to `IndexPatternsApiClient` and expose it in `IndexPatterns`.
+        - [ ] replace `get_indices` with `data.indexPatterns.indexPatterns.getIndexNamesForWildcard`.
+      - [ ] indexPatterns -> data.indexPatterns.indexPatterns
+      - [ ] $http -> npSetup.core.http
+      - [ ] savedObjectsClient -> npStart.core.savedObjects.client.
+      - [ ] confirmModalPromise -> Migrate ConfirmModal to kibana_react.
+    - [ ] Remove deprecated React lifecyle methods
+      - [ ] componentWillMount
+      - [ ] componentWillReceiveProps
+      - [x] ~~componentWillUpdate~~ -> Fortunately, it doesn't exist. 
+  - [ ] Edit
+- [ ] Objects section
+- [ ] Settings section
+- [ ] Implement Sections API RFC #43631
+- [ ] Main app
+  - [ ] Remove 'kbnManagementLanding' -> It's replaced with the react component. 
+  - [ ] create app.tsx and add Management App with react-router-dom. 
+  - [ ] route_setup -> react-router-dom
+  - [ ] LandingPage
+    - [ ] Create LandingPage component
+    - [ ] register route on Management App root. 
+    - [ ] remove `updateLandingPage` function
+  - [ ] Sidebar
+    - [ ] EuiSideNav add each item with onClick that changes the App root state of `activeSectionId`. 
+    - [ ] Replace `Subsection` and `Section` interface with those in API. 
+    - [ ] Get version from `npSetup.core.injectedMetadata.getKibanaVersion()`
+  - [ ] Check _management_app.scss if they can be removed. 
+- [ ] Migrate to `src/plugins/management`
+
+## Experiments
+- [ ] react-router-dom
+  - [ ] BrowserRouter basename and Redirect -> does /home work correctly?
+
+- Remove angular dependencies. 
+  - [ ] config -> uiSettings
+  - [ ] indexPatterns -> data.indexPatterns.
+  - [ ] kfetch -> core.http
+  - [ ] move 'ui/field_editor' to settings
+  - [ ] confirmModalPromise
+  - [ ] $routeParams
+  - [ ] savedObjects
+- Typescriptify sections
+  - [ ] index patterns
+  - [ ] objects
+  - [ ] settings
+- [ ] Implement SectionManager #
+- 
