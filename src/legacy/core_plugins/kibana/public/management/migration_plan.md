@@ -1,5 +1,10 @@
 - [ ] Create management plugin under `legacy/core_plugins`. #45747
 - [ ] Remove `injectI18n`s. #45876
+- Currently, some components and tests are inside the folders of its name or \_\_jest\_\_. It complicates the folder structure. They should be simplified. 
+  - Remove `index.js`
+  - Move component and its test out of its own folder and to right under `components` folder. They should be side-by-side.
+  - `snapshots` should be moved under `components/__snapshots__`.
+  - Note: The process above will be called "simplify struture" below. 
 - [ ] Index Patterns section
   - To use `react-router-dom`, the URL structure should be changed a bit like below: 
     - /index_patterns -> show list
@@ -23,7 +28,6 @@
         - [ ] requireUICapability -> move ui/capabilities/route_setup -> src/plugins/kibana_react
       - [ ] De-angularize variables
         - [ ] indexPatterns -> SavedObjectsClientProvider -> npStart.core.savedObjects.client
-        - [ ] kbnUrl.change -> [history.push](https://tylermcginnis.com/react-router-programmatically-navigate/)
         - [ ] kbnUrl.eval -> simple template string
         - [ ] defaultIndex -> get it from `uiSettings.get('defaultIndex')`
         - [ ] editingId -> can be removed. `:indexPatternsId` doesn't exist in url
@@ -31,27 +35,65 @@
         - [ ] bindToScope and $apply can be removed because defaultIndex is retrieved directly from uiSettings. 
         - [ ] I18nContext -> npStart.core.i18n.Context
         - [ ] UICapabilitiesProvider -> npStart.core.application.capabilities 
-  - [ ] Create
-    - [ ] De-angularize variables
-      - [ ] $routeParams -> Remove. url pattern doesn't have :id or :type. And query params aren't used. 
-      - [ ] config -> npSetup.core.uiSettings
-      - [ ] es
-        - [ ] add `getIndexNamesForWildcard` in `IndexPatternsFetcher`.
-        - [ ] add route to `IndexPatternsFetcher`.
-        - [ ] add api to `IndexPatternsApiClient` and expose it in `IndexPatterns`.
-        - [ ] replace `get_indices` with `data.indexPatterns.indexPatterns.getIndexNamesForWildcard`.
-      - [ ] indexPatterns -> data.indexPatterns.indexPatterns
-      - [ ] $http -> npSetup.core.http
-      - [ ] savedObjectsClient -> npStart.core.savedObjects.client.
-      - [ ] confirmModalPromise -> Migrate ConfirmModal to kibana_react.
-    - [ ] Remove deprecated React lifecyle methods
-      - [ ] componentWillMount
-      - [ ] componentWillReceiveProps
-      - [x] ~~componentWillUpdate~~ -> Fortunately, it doesn't exist. 
-  - [ ] Edit
+    - [ ] Create
+      - [ ] De-angularize variables
+        - [ ] $routeParams -> Remove. url pattern doesn't have :id or :type. And query params aren't used. 
+        - [ ] config -> npSetup.core.uiSettings
+        - [ ] es
+          - [ ] add `getIndexNamesForWildcard` in `IndexPatternsFetcher`.
+          - [ ] add route to `IndexPatternsFetcher`.
+          - [ ] add api to `IndexPatternsApiClient` and expose it in `IndexPatterns`.
+          - [ ] replace `get_indices` with `data.indexPatterns.indexPatterns.getIndexNamesForWildcard`.
+        - [ ] indexPatterns -> data.indexPatterns.indexPatterns
+        - [ ] $http -> npSetup.core.http
+        - [ ] savedObjectsClient -> npStart.core.savedObjects.client.
+        - [ ] confirmModalPromise -> EuiConfirmModal
+      - [ ] Change `angular_template.html` euiPanel to EuiPanel component. 
+      - [ ] TypeScriptify files and simplify structure.
+        - [ ] constants/index.js -> constants.ts
+        - [ ] components/empty_state
+        - [ ] components/header
+        - [ ] components/loading_state
+      - [ ] Move steps from `components` to `steps`.
+        - [ ] index_pattern
+          - [ ] TypeScriptify files and simplify structure
+            - [ ] components/header
+            - [ ] components/indices_list
+            - [ ] components/loading_indices
+            - [ ] components/status_message
+          - [ ] TypeScriptify `step_index_pattern.js`
+        - [ ] time_field
+          - [ ] TypeScriptify files and simplify structure
+            - [ ] components/action_buttons
+            - [ ] components/advanced_options
+            - [ ] components/header
+            - [ ] components/time_field
+          - [ ] TypeScriptify `step_time_field.js`
+      - `lib`
+        - [ ] `can_append_wildcard.js`, `contains_illegal_characters.js`, `get_matched_indices.js` and related tests -> `steps/index_pattern/lib.ts` and `lib.test.ts`
+        - [ ] `extract_time_fields.js` and related tests -> `steps/time_field/lib.ts` and `lib.test.ts`.
+        - [ ] `ensure_minimum_time.js`, `get_indices` and related tests -> `lib.ts` and `lib.test.ts`
+      - [ ] Remove will-be-deprecated React lifecyle methods
+        - [ ] componentWillMount: move code to componentDidMount
+          - [ ] create_index_pattern_wizard
+          - [ ] step_index_pattern
+        - [ ] componentWillReceiveProps -> indices_list
+        - [x] ~~componentWillUpdate~~ -> Fortunately, it doesn't exist. 
+    - [ ] Edit
+    - [ ] New `IndexPatternsSection` Component
+      - [ ] Create `IndexPatternsSection` component.
+      - [ ] kbnUrl -> React Router
+        - [ ] kbnUrl.change -> [history.push](https://tylermcginnis.com/react-router-programmatically-navigate/)
+        - [ ] Add List, Create, Edit as `Route`s. 
+      - [ ] Remove uiRoutes from Create, Edit. 
+      - [ ] `legacy` folder.
+        - [ ] move `index.js` and `app.html`. 
+        - [ ] create `render` and `destroy` functions in `index.js`. 
+          - [ ] call them inside uiRoutes.
+        - [ ] `import './legacy'` in `index.ts`.
+        - **Note**: This folder will be removed after other sections and Main app are refactored. 
 - [ ] Objects section
 - [ ] Settings section
-- [ ] Implement Sections API RFC #43631
 - [ ] Main app
   - [ ] Remove 'kbnManagementLanding' -> It's replaced with the react component. 
   - [ ] create app.tsx and add Management App with react-router-dom. 
@@ -65,7 +107,9 @@
     - [ ] Replace `Subsection` and `Section` interface with those in API. 
     - [ ] Get version from `npSetup.core.injectedMetadata.getKibanaVersion()`
   - [ ] Check _management_app.scss if they can be removed. 
-- [ ] Migrate to `src/plugins/management`
+- [ ] Implement Sections API RFC #43631
+- [ ] Refactor Main app to use React Router
+- [ ] Move files to `src/plugins/management`
 
 ## Experiments
 - [ ] react-router-dom
