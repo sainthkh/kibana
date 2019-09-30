@@ -35,63 +35,63 @@
         - [ ] bindToScope and $apply can be removed because defaultIndex is retrieved directly from uiSettings. 
         - [ ] I18nContext -> npStart.core.i18n.Context
         - [ ] UICapabilitiesProvider -> npStart.core.application.capabilities 
-    - [ ] Create
-      - [ ] De-angularize variables
-        - [ ] $routeParams -> Remove. url pattern doesn't have :id or :type. And query params aren't used. 
-        - [ ] config -> npSetup.core.uiSettings
-        - [ ] es
-          - [ ] add `getIndexNamesForWildcard` in `IndexPatternsFetcher`.
-          - [ ] add route to `IndexPatternsFetcher`.
-          - [ ] add api to `IndexPatternsApiClient` and expose it in `IndexPatterns`.
-          - [ ] replace `get_indices` with `data.indexPatterns.indexPatterns.getIndexNamesForWildcard`.
-        - [ ] indexPatterns -> data.indexPatterns.indexPatterns
-        - [ ] $http -> npSetup.core.http
-        - [ ] savedObjectsClient -> npStart.core.savedObjects.client.
-        - [ ] confirmModalPromise -> EuiConfirmModal
-      - [ ] Change `angular_template.html` euiPanel to EuiPanel component. 
-      - [ ] TypeScriptify files and simplify structure.
-        - [ ] constants/index.js -> constants.ts
-        - [ ] components/empty_state
-        - [ ] components/header
-        - [ ] components/loading_state
-      - [ ] Move steps from `components` to `steps`.
-        - [ ] index_pattern
-          - [ ] TypeScriptify files and simplify structure
-            - [ ] components/header
-            - [ ] components/indices_list
-            - [ ] components/loading_indices
-            - [ ] components/status_message
-          - [ ] TypeScriptify `step_index_pattern.js`
-        - [ ] time_field
-          - [ ] TypeScriptify files and simplify structure
-            - [ ] components/action_buttons
-            - [ ] components/advanced_options
-            - [ ] components/header
-            - [ ] components/time_field
-          - [ ] TypeScriptify `step_time_field.js`
-      - `lib`
-        - [ ] `can_append_wildcard.js`, `contains_illegal_characters.js`, `get_matched_indices.js` and related tests -> `steps/index_pattern/lib.ts` and `lib.test.ts`
-        - [ ] `extract_time_fields.js` and related tests -> `steps/time_field/lib.ts` and `lib.test.ts`.
-        - [ ] `ensure_minimum_time.js`, `get_indices` and related tests -> `lib.ts` and `lib.test.ts`
-      - [ ] Remove will-be-deprecated React lifecyle methods
-        - [ ] componentWillMount: move code to componentDidMount
-          - [ ] create_index_pattern_wizard
-          - [ ] step_index_pattern
-        - [ ] componentWillReceiveProps -> indices_list
-        - [x] ~~componentWillUpdate~~ -> Fortunately, it doesn't exist. 
-    - [ ] Edit
-    - [ ] New `IndexPatternsSection` Component
-      - [ ] Create `IndexPatternsSection` component.
-      - [ ] kbnUrl -> React Router
-        - [ ] kbnUrl.change -> [history.push](https://tylermcginnis.com/react-router-programmatically-navigate/)
-        - [ ] Add List, Create, Edit as `Route`s. 
-      - [ ] Remove uiRoutes from Create, Edit. 
-      - [ ] `legacy` folder.
-        - [ ] move `index.js` and `app.html`. 
-        - [ ] create `render` and `destroy` functions in `index.js`. 
-          - [ ] call them inside uiRoutes.
-        - [ ] `import './legacy'` in `index.ts`.
-        - **Note**: This folder will be removed after other sections and Main app are refactored. 
+  - [ ] Create
+    - [ ] De-angularize variables
+      - [ ] $routeParams -> Remove. url pattern doesn't have :id or :type. And query params aren't used. 
+      - [ ] config -> npSetup.core.uiSettings
+      - [ ] es
+        - [ ] add `getIndexNamesForWildcard` in `IndexPatternsFetcher`.
+        - [ ] add route to `IndexPatternsFetcher`.
+        - [ ] add api to `IndexPatternsApiClient` and expose it in `IndexPatterns`.
+        - [ ] replace `get_indices` with `data.indexPatterns.indexPatterns.getIndexNamesForWildcard`.
+      - [ ] indexPatterns -> data.indexPatterns.indexPatterns
+      - [ ] $http -> npSetup.core.http
+      - [ ] savedObjectsClient -> npStart.core.savedObjects.client.
+      - [ ] confirmModalPromise -> EuiConfirmModal
+    - [ ] Change `angular_template.html` euiPanel to EuiPanel component. 
+    - [ ] TypeScriptify files and simplify structure.
+      - [ ] constants/index.js -> constants.ts
+      - [ ] components/empty_state
+      - [ ] components/header
+      - [ ] components/loading_state
+    - [ ] Move steps from `components` to `steps`.
+      - [ ] index_pattern
+        - [ ] TypeScriptify files and simplify structure
+          - [ ] components/header
+          - [ ] components/indices_list
+          - [ ] components/loading_indices
+          - [ ] components/status_message
+        - [ ] TypeScriptify `step_index_pattern.js`
+      - [ ] time_field
+        - [ ] TypeScriptify files and simplify structure
+          - [ ] components/action_buttons
+          - [ ] components/advanced_options
+          - [ ] components/header
+          - [ ] components/time_field
+        - [ ] TypeScriptify `step_time_field.js`
+    - `lib`
+      - [ ] `can_append_wildcard.js`, `contains_illegal_characters.js`, `get_matched_indices.js` and related tests -> `steps/index_pattern/lib.ts` and `lib.test.ts`
+      - [ ] `extract_time_fields.js` and related tests -> `steps/time_field/lib.ts` and `lib.test.ts`.
+      - [ ] `ensure_minimum_time.js`, `get_indices` and related tests -> `lib.ts` and `lib.test.ts`
+    - [ ] Remove will-be-deprecated React lifecyle methods
+      - [ ] componentWillMount: move code to componentDidMount
+        - [ ] create_index_pattern_wizard
+        - [ ] step_index_pattern
+      - [ ] componentWillReceiveProps -> indices_list
+      - [x] ~~componentWillUpdate~~ -> Fortunately, it doesn't exist. 
+  - [ ] Edit
+  - [ ] New `IndexPatternsSection` Component
+    - [ ] Create `IndexPatternsSection` component.
+    - [ ] kbnUrl -> React Router
+      - [ ] kbnUrl.change -> [history.push](https://tylermcginnis.com/react-router-programmatically-navigate/)
+      - [ ] Add List, Create, Edit as `Route`s. 
+    - [ ] Remove uiRoutes from Create, Edit. 
+    - [ ] `legacy` folder.
+      - [ ] move `index.js` and `app.html`. 
+      - [ ] create `render` and `destroy` functions in `index.js`. 
+        - [ ] call them inside uiRoutes.
+      - [ ] `import './legacy'` in `index.ts`.
+      - **Note**: This folder will be removed after other sections and Main app are refactored. 
 - [ ] Objects section
 - [ ] Settings section
 - [ ] Main app
