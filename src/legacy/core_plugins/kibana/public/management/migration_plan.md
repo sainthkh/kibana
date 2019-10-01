@@ -20,12 +20,13 @@
       - [ ] Migrate IndexPatternTable content to IndexPatternList.tsx
       - [ ] Create IndexPatternListHeader.tsx and move page title and button part. 
       - [ ] CreateButton -> move `const button` into `options.length > 1` and `> 1` condition to `else`.
-    - List Component 
+    - [ ] List Component 
       - [ ] De-angularize legacy compat
         - [ ] uiCapabilities -> npStart.core.application.capabilities
         - [ ] badge -> npStart.core.chrome.setBadge
           - [ ] badge and uiCapabilities -> check ui/legacy_compat/angular_config.tsx
         - [ ] requireUICapability -> move ui/capabilities/route_setup -> src/plugins/kibana_react
+        - [ ] breadcrumbs -> npStart.core.chrome.setBreadcrumbs()
       - [ ] De-angularize variables
         - [ ] indexPatterns -> SavedObjectsClientProvider -> npStart.core.savedObjects.client
         - [ ] kbnUrl.eval -> simple template string
@@ -79,7 +80,77 @@
         - [ ] step_index_pattern
       - [ ] componentWillReceiveProps -> indices_list
       - [x] ~~componentWillUpdate~~ -> Fortunately, it doesn't exist. 
+    - [ ] TypeScriptify `create_index_pattern_wizard.js`.
   - [ ] Edit
+    - [ ] de-angularize `edit_index_pattern.js`
+      - [ ] create and Euify components
+        - [ ] header
+          - [ ] [Change it with EuiFlexGroup and EuiFlexItem](https://elastic.github.io/eui/#/layout/flex)
+          - [ ] icon -> EuiIcon
+          - [ ] wrap it with EuiTitle
+          - [ ] buttons with EuiButton
+        - [ ] tags
+        - [ ] explanation
+        - [ ] alerts
+        - [ ] tabs
+          - [ ] move fieldFilters to each tabs -> EuiFieldSearch.onChange
+          - [ ] indexedFieldTypeFilter -> updateIndexedFieldsTable, EuiSelect.onChange
+          - [ ] scriptedFieldLanguageFilter -> updateScriptedFieldsTable, EuiSelect.onChange
+          - [ ] Tabs component
+          - [ ] Remove unnecessary angular variables
+            - [ ] changeFilter
+            - [ ] changeTab
+            - [ ] $watch('state.tab')
+            - [ ] $watch('fieldFilter')
+            - [ ] $watch('indexedFieldTypeFilter')
+            - [ ] $watch('scriptedFieldLanguageFilter')
+            - [ ] $state and AppState.
+          - [ ] create `updateTabs` and `destroyTabs` call them in controller. 
+      - [ ] remove angular variables. 
+        - [ ] $route -> indexPattern(s) -> npStart.core.savedObjects.client
+        - [ ] config -> npSetup.core.uiSettings
+        - [ ] ui/field_wildcard -> `field_wildcard.ts`
+        - [ ] I18nContext -> npStart.core.i18n.Context
+        - [ ] fatalError -> npSetup.core.fatalErrors.add
+        - [ ] toastNotifications -> npSetup.core.notifications.toasts
+        - [ ] ui/doc_title -> plugins/kibana_utils
+        - [ ] breadcrumbs -> npStart.core.chrome.setBreadcrumbs()
+    - [ ] IndexPatternFieldList component. 
+      - [ ] confirmModal => EuiConfirmModal
+      - [ ] $location -> react-router history
+      - [ ] updateEditIndexPatterns, destroyEditIndexPatterns. Call destroy inside $on('$destroy')
+    - [ ] TypeScriptify and simplify tables
+      - [ ] indexed_fields_table
+      - [ ] scripted_fields_table
+      - [ ] source_filters_table
+    - [ ] create_edit_field -> scripted_field
+      - [ ] move ui/field_editor -> scripted_field/editor 
+        - [ ] ui/scripting_languages -> /lib
+        - [ ] ui/documentation_links getDocLinks -> npStart.core.docLinks.links
+        - [ ] ui/notify toastNotifications -> npSetup.core.notifications.toasts
+        - [ ] remove `injectI18n`
+        - [ ] $http -> npSetup.core.http
+        - [ ] TypeScriptify
+          - [ ] lib
+          - [ ] components/field_format_editor
+            - [ ] removing getDerivedStateFromProps and inheritance?
+          - [ ] components/scripting_callouts
+          - [ ] components/scripting_help
+    - [ ] de-angularize
+      - [ ] ui/doc_title -> use one from plugins/kibana_utils
+      - [ ] ui/notify toastNotifications -> npSetup.core.notifications.toasts
+      - [ ] breadcrumbs -> npStart.core.chrome.setBreadcrumbs()
+      - [ ] config -> npSetup.core.uiSettings
+      - [ ] $timeout -> setTimeout()
+      - [ ] create `create_field.tsx` and add component
+      - [ ] create `edit_field.tsx` and add component
+      - [ ] update and destroy them in each route.
+    - [ ] New `EditIndexPatterns` component
+      - [ ] Create `IndexPatternsSection` component.
+      - [ ] kbnUrl -> React Router
+        - [ ] kbnUrl.change -> [history.push](https://tylermcginnis.com/react-router-programmatically-navigate/)
+        - [ ] Add `IndexPatternFieldList`, `CreateScriptedField`, `EditScriptedField`
+      - [ ] Remove routes from `scripted_fields`
   - [ ] New `IndexPatternsSection` Component
     - [ ] Create `IndexPatternsSection` component.
     - [ ] kbnUrl -> React Router
