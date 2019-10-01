@@ -1,5 +1,5 @@
-- [ ] Create management plugin under `legacy/core_plugins`. #45747
-- [ ] Remove `injectI18n`s. #45876
+- [ ] Create management plugin under `legacy/core_plugins`. PR:#45747
+- [ ] Remove `injectI18n`s. PR:#45876
 - Currently, some components and tests are inside the folders of its name or \_\_jest\_\_. It complicates the folder structure. They should be simplified. 
   - Remove `index.js`
   - Move component and its test out of its own folder and to right under `components` folder. They should be side-by-side.
@@ -220,6 +220,22 @@
     - [ ] remove uiRoutes in `_view.js`
     - [ ] make `legacy` folder and fill it with `app.html` and `app.js`
 - [ ] Settings section
+  - [ ] de-angularize
+    - [ ] config -> npSetup.core.uiSettings and getUpdate$().
+    - [ ] badge -> npStart.core.chrome.setBadge
+      - [ ] badge and uiCapabilities -> check ui/legacy_compat/angular_config.tsx
+    - [ ] requireUICapability -> move ui/capabilities/route_setup -> src/plugins/kibana_react
+    - [ ] breadcrumbs -> npStart.core.chrome.setBreadcrumbs()
+  - [ ] TypeScriptify and simplify components
+    - [ ] advanced_settings_voice_announcement
+    - [ ] call_outs
+    - [ ] field
+    - [ ] form
+    - [ ] page_footer
+    - [ ] page_subtitle
+    - [ ] page_title
+    - [ ] search
+  - [ ] create `AdvancedSettingsSection` component. 
 - [ ] Main app
   - [ ] Remove 'kbnManagementLanding' -> It's replaced with the react component. 
   - [ ] create app.tsx and add Management App with react-router-dom. 
@@ -235,23 +251,13 @@
   - [ ] Check _management_app.scss if they can be removed. 
 - [ ] Implement Sections API RFC #43631
 - [ ] Refactor Main app to use React Router
-- [ ] Move files to `src/plugins/management`
+- [ ] Move files to `src/plugins/management/public`
+- [ ] NP-ize server code
+  - [ ] Use NP
+    - [ ] `legacy/server/saved_objects`
+    - [ ] `legacy/core_plugins/kibana/server/routes/api/management`
+  - [ ] move them to `src/plugins/management/server`
 
 ## Experiments
 - [ ] react-router-dom
   - [ ] BrowserRouter basename and Redirect -> does /home work correctly?
-
-- Remove angular dependencies. 
-  - [ ] config -> uiSettings
-  - [ ] indexPatterns -> data.indexPatterns.
-  - [ ] kfetch -> core.http
-  - [ ] move 'ui/field_editor' to settings
-  - [ ] confirmModalPromise
-  - [ ] $routeParams
-  - [ ] savedObjects
-- Typescriptify sections
-  - [ ] index patterns
-  - [ ] objects
-  - [ ] settings
-- [ ] Implement SectionManager #
-- 
