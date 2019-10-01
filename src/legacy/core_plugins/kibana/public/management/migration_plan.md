@@ -164,6 +164,61 @@
       - [ ] `import './legacy'` in `index.ts`.
       - **Note**: This folder will be removed after other sections and Main app are refactored. 
 - [ ] Objects section
+  - [ ] lib
+    - [ ] de-angularize
+      - [ ] remove kfetch. 
+        - [ ] fetch_export_by_type.js
+        - [ ] fetch_export_objects.js
+        - [ ] find_objects.js
+        - [ ] import_file.js
+        - [ ] log_legacy_import.js
+        - [ ] resolve_import_errors.js
+      - [ ] ui/utils/case_conversion -> kibana_utils/string vs. `find_objects.js`
+        - It's used only once in `find_objects.js`
+      - [ ] $http -> npSetup.core.http
+    - [ ] TypeScriptify files
+  - [ ] _view
+    - [ ] Create `editor` dir and move files into it. 
+    - [ ] Euify components
+      - [ ] header
+      - [ ] Errors
+      - [ ] Intro
+      - [ ] Fields form
+      - [ ] Actions
+    - [ ] de-angularize
+      - [ ] $injector -> should wait for #45235. All objects uses `SearchSourceProvider`.
+        - [ ] savedObjectManagementRegistry -> needs to design something like #43631.
+        - [ ] savedDashboard
+        - [ ] savedSearches
+        - [ ] savedVisualizations
+        - [ ] savedSheets
+      - [ ] uiCapabilities -> npStart.core.application.capabilities
+      - [ ] fatalError -> npSetup.core.fatalErrors.add
+      - [ ] toastNotifications -> npSetup.core.notifications.toasts
+      - [ ] savedObjectClientProvider -> npStart.core.savedObjects.client
+      - [ ] isNumeric -> move it to _view.js and call it. 
+    - [ ] Move functions out of the component
+      - [ ] createField
+      - [ ] readObjectClass
+    - [ ] Create `SavedObjectEditor` component
+      - [ ] update and destroy
+    - [ ] TypeScriptify files. 
+  - [ ] _objects
+    - [ ] create `list` folder and move related files. 
+    - [ ] de-angularize variables
+      - [ ] indexPatterns ->  data.indexPatterns.indexPatterns
+      - [ ] $http -> npSetup.core.http
+      - [ ] config -> npSetup.core.uiSettings
+      - [ ] confirmModalPromise -> EuiConfirmModal
+      - [ ] savedObjectsClient -> npStart.core.savedObjects.client
+    - [ ] create `SavedObjectList` component. 
+    - [ ] TypeScriptify files. 
+  - [ ] create `SavedObjectsSection` component
+    - [ ] kbnUrl -> React Router
+      - [ ] kbnUrl.change -> [history.push](https://tylermcginnis.com/react-router-programmatically-navigate/)
+      - [ ] add `SavedObjectEditor` and `SavedObjectList`
+    - [ ] remove uiRoutes in `_view.js`
+    - [ ] make `legacy` folder and fill it with `app.html` and `app.js`
 - [ ] Settings section
 - [ ] Main app
   - [ ] Remove 'kbnManagementLanding' -> It's replaced with the react component. 
